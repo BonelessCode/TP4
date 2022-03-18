@@ -42,33 +42,32 @@ public class Game {
         }
     }
 
-//    Shuffle mais plus nécessaire
-//    private static List<Object> turn(List<Object>  listToRandomOrder) {
-//        int chosenPosition;
-//
-//        List<Object> listLeft = List.copyOf(listToRandomOrder);
-//
-//        List<Object> orderList = new ArrayList<>();
-//        Random random = new Random();
-//
-//        for(int i=0;i<listToRandomOrder.size();i++){
-//            chosenPosition = random.nextInt(listLeft.size());
-//            orderList.add(chosenPosition);
-//            listLeft.remove(chosenPosition);
-//        }
-//
-//        return orderList;
-//
-//    }
-
     private static void fight() {
 
         String choice;
         int aimed;
         Hero heroActuel;
 
+
+
+        List<Integer> heroesHealth = new ArrayList<>();
+
+        for(Hero hero : heroes){
+            heroesHealth.add(hero.getLifePoints());
+        }
+
         System.out.println("Heros: "+heroes);
+
+        System.out.println("PDV alliés: "+heroesHealth);
+        List<Integer> enemyHealth = new ArrayList<>();
+
+        for(Enemy enemy : enemies){
+            enemyHealth.add(enemy.getLifePoints());
+        }
+
+        System.out.println("PDV ennemis: "+enemyHealth);
         System.out.println("Ennemis: "+enemies+"\n\n");
+
 
 
 
@@ -126,6 +125,7 @@ public class Game {
 
                         enemies.get(aimed).reduceLifePoints(heroActuel.attack());
                     }
+                    verifyHealth();
                     break;
 
 
