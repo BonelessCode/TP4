@@ -4,7 +4,7 @@ import java.util.List;
 
 public abstract class Hero {
 
-    protected int lifePoints = 200 ;
+    protected int lifePoints = 200;
     private int armor;
 
     protected int weaponDamage = 200;
@@ -36,9 +36,7 @@ public abstract class Hero {
 
 
 
-    public int attack(){
-        return weaponDamage;
-    }
+    public abstract int attack();
 
     public abstract void defend();
 

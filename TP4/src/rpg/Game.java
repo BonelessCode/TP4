@@ -5,10 +5,23 @@ import utils.InputParser;
 import java.util.*;
 
 public class Game {
+
     public static List<Hero> heroes;
     public static List<Enemy> enemies;
     public static InputParser inputParser = new InputParser();
     private static int playerTurn;
+
+    public List<Hero> getHeroes() {
+        return heroes;
+    }
+
+    public Game() {
+
+    }
+
+    public Game(List<Hero> heroes) {
+        this.heroes = heroes;
+    }
 
     Enemy enemy;
     static int probaBoss = 10;
@@ -20,15 +33,15 @@ public class Game {
 
     public static void playGame(){
 
-        heroes = new ArrayList<>();
-        heroes.add(new Hunter());
-        heroes.add(new Healer());
-        heroes.add(new Warrior());
+//        heroes = new ArrayList<>();
+//        heroes.add(new Hunter());
+//        heroes.add(new Healer());
+//        heroes.add(new Warrior());
 
 
 
         while (heroes!=null){
-            enemies = generateCombat(heroes);
+            generateCombat();
 
 //          Ordre aléatoire des joueurs
             Collections.shuffle(heroes);
@@ -36,7 +49,7 @@ public class Game {
 
             playerTurn = (int) probabilite(List.of(0,1),List.of(50,50));
 
-            while(heroes!=null && enemies!=null){
+            while(!heroes.isEmpty() && !enemies.isEmpty()){
                 fight();
             }
         }
@@ -108,7 +121,11 @@ public class Game {
             System.out.println("Type de hero actuel: "+heroActuel.getClass());
             System.out.println("PV: "+heroActuel.getLifePoints()+"       Weapon DMG: "+heroActuel.getWeaponDamage());
 
-            choice = inputParser.askTurnChoice(i);
+            do {
+                choice = inputParser.askTurnChoice(i);
+            }
+            while (heroActuel.attack()==-1);
+
 
             switch (choice) {
                 case "A":
@@ -147,7 +164,7 @@ public class Game {
     /**
      * Vérifie si les héros qui jouent sont toujours en vie, s'ils ont 0PV ou moins, les enlève de la liste.
      */
-    private static void verifyHealth() {
+    public static void verifyHealth() {
 
         for (int i=0;i<heroes.size();i++){
             if (heroes.get(i).getLifePoints()==0){
@@ -164,20 +181,19 @@ public class Game {
 
     /**
      * Génère une liste d'ennemis en prenant en compte les imprécisions en terme de nombre et les probabilite que le boss spawn.
-     * @param heroes
      * @return
      */
-    public static List<Enemy> generateCombat(List<Hero> heroes){
-        List<Enemy> enemies  = new ArrayList<>();
-
+    public static void generateCombat(){
+        List<Enemy> enemyArrayList  = new ArrayList<>();
 
         int taille =  heroes.size()<=1 ? (int) probabilite(List.of(heroes.size(),heroes.size()+1),List.of(90,10)):(int) probabilite(List.of(heroes.size()-1,heroes.size(),heroes.size()+1),List.of(10,80,10));
         Random random = new Random();
 
         for(int i=0;i<taille;i++){
-            enemies.add((Enemy) probabilite(List.of(new BasicEnemy(),new Boss()),List.of(100-probaBoss,probaBoss)));
+            enemyArrayList.add((Enemy) probabilite(List.of(new BasicEnemy(),new Boss()),List.of(100-probaBoss,probaBoss)));
         }
-        return enemies;
+
+        enemies = enemyArrayList;
     }
 
 

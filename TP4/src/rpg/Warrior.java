@@ -7,6 +7,11 @@ public class Warrior extends Hero {
     }
 
     @Override
+    public int attack() {
+        return weaponDamage;
+    }
+
+    @Override
     public void defend() {
 
     }

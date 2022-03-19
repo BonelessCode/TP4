@@ -3,8 +3,8 @@ package rpg;
 public class SpellCaster extends Hero {
 
 
-    private int manaPoints;
-    private int diminuerMana;
+    protected int manaPoints;
+    protected int diminuerMana;
 
     public SpellCaster() {
 //        this.weaponDamage = 12;
@@ -14,9 +14,15 @@ public class SpellCaster extends Hero {
     @Override
     public int attack() {
 
+        if(manaPoints>diminuerMana){
+            manaPoints = manaPoints - diminuerMana;
+            return weaponDamage;
+        }
+        else{
+            System.out.println("Vous n'avez pas assez de mana pour attaquer, Veuillez réessayer");
+            return -1;
+        }
 
-        manaPoints = manaPoints - diminuerMana < 0 ? 0 : manaPoints - diminuerMana ;
-        return weaponDamage;
     }
 
     @Override
