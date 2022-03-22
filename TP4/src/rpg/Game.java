@@ -33,14 +33,14 @@ public class Game {
 
     public static void playGame(){
 
-//        heroes = new ArrayList<>();
-//        heroes.add(new Hunter());
-//        heroes.add(new Healer());
-//        heroes.add(new Warrior());
+        heroes = new ArrayList<>();
+        heroes.add(new Hunter(10));
+        heroes.add(new Healer());
+        heroes.add(new Warrior());
 
 
 
-        while (heroes!=null){
+        while (!heroes.isEmpty()){
             generateCombat();
 
 //          Ordre aléatoire des joueurs
@@ -51,6 +51,37 @@ public class Game {
 
             while(!heroes.isEmpty() && !enemies.isEmpty()){
                 fight();
+            }
+
+            if(enemies.isEmpty()){
+                RemiseRecompenses();
+            }
+            else if(heroes.isEmpty()){
+                System.out.println("Vous avez PERDU !");
+            }
+        }
+    }
+
+    private static void RemiseRecompenses() {
+        for(Hero hero : heroes){
+            hero.resetLifePoints();
+
+            String choice = inputParser.askPrice();
+            switch (choice) {
+                case "A":
+                    hero.increaseArmor();
+
+                case "B":
+                    hero.increaseDamage();
+
+                case "C":
+                    hero.increaseConsumableEffect();
+
+                case "D":
+                    hero.increaseConsumableNumber();
+
+                case "E":
+                    hero.increaseArrowOrMana();
             }
         }
     }
@@ -121,43 +152,50 @@ public class Game {
             System.out.println("Type de hero actuel: "+heroActuel.getClass());
             System.out.println("PV: "+heroActuel.getLifePoints()+"       Weapon DMG: "+heroActuel.getWeaponDamage());
 
+            Enemy enemy = new Enemy();
             do {
                 choice = inputParser.askTurnChoice(i);
             }
-            while (heroActuel.attack()==-1);
+            while (!heroActuel.attack(enemy) || (choice.equals("C") && heroActuel.getPotions().isEmpty() && heroActuel.getFood().isEmpty()));
+
+            boolean bool = true;
+            do {
+                switch (choice) {
+                    case "A":
+                        System.out.println("Vous avez choisi d'attaquer !");
+
+                        if (heroActuel.getClass() == Healer.class) {
+                            System.out.println("Quel allié voulez-vous soigner ? ");
+                            aimed = inputParser.askNumberInList(new ArrayList<>(heroes));
+                            bool = ((Healer) heroActuel).healattack(heroes,aimed);
+                        }
+                        else {
+                            System.out.println("Quel ennemi voulez-vous attaquer ? ");
+                            aimed = inputParser.askNumberInList(new ArrayList<>(enemies));
+                            bool = heroActuel.attack(enemies.get(aimed));
+
+                        }
+                        verifyHealth();
+                        break;
 
 
-            switch (choice) {
-                case "A":
-                    System.out.println("Vous avez choisi d'attaquer !");
+                    case "D":
+                        System.out.println("Vous avez choisi de défendre !");
+                        heroActuel.defend();
+                        break;
 
-                    if(heroActuel.getClass()==Healer.class){
-                        System.out.println("Quel allié voulez-vous soigner ? ");
-                        aimed = inputParser.askNumberInList(new ArrayList<Object>(heroes));
-                        heroes.get(aimed).addLifePoints(heroActuel.attack());
-                    }
-                    else{
-                        System.out.println("Quel ennemi voulez-vous attaquer ? ");
-                        aimed = inputParser.askNumberInList(new ArrayList<Object>(enemies));
-
-                        enemies.get(aimed).reduceLifePoints(heroActuel.attack());
-                    }
-                    verifyHealth();
-                    break;
-
-
-
-                case "D":
-                    System.out.println("Vous avez choisi de défendre !");
-                    heroActuel.defend();
-                    break;
-
-                case "C":
-                    System.out.println("Vous avez choisi de consommer !");
-                    //                    if (Consommable existe)
-                    heroActuel.useConsumable(new Potion());
-                    break;
+                    case "C":
+                        System.out.println("Vous avez choisi de consommer !");
+                        //                    if (Consommable existe)
+                        bool = heroActuel.useConsumable(inputParser.askConsumable());
+                        break;
+                }
             }
+            while (!bool);
+
+
+
+
         }
     }
 

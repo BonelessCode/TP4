@@ -7,18 +7,15 @@ public class Warrior extends Hero {
     }
 
     @Override
-    public int attack() {
-        return weaponDamage;
+    public boolean attack(Enemy enemy) {
+        enemy.reduceLifePoints(weaponDamage);
+        return true;
     }
 
-    @Override
-    public void defend() {
-
-    }
 
     @Override
-    public void useConsumable(Consumable consumable) {
-
-
+    public void increaseArrowOrMana() {
+        System.out.println("Votre personnage est un Warrior, ses dégâts se veront donc augmenter.");
+        increaseDamage();
     }
 }

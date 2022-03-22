@@ -10,30 +10,27 @@ public class Hunter extends Hero {
     }
 
     @Override
-    public int attack() {
+    public boolean attack(Enemy enemy) {
         if(arrow>0){
             arrow-=1;
-            return weaponDamage;
+            enemy.reduceLifePoints(weaponDamage);
+            return true;
         }
         else{
             System.out.println("Vous n'avez pas assez de flèches pour attaquer, Veuillez réessayer");
-            return -1;
+            return false;
         }
 
     }
 
-    @Override
-    public void defend() {
-
-    }
-
-    @Override
-    public void useConsumable(Consumable consumable) {
-
-    }
 
 
     public int getArrow() {
         return arrow;
+    }
+
+    @Override
+    public void increaseArrowOrMana() {
+        arrow+=20;
     }
 }

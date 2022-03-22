@@ -1,6 +1,6 @@
 package rpg;
 
-public class SpellCaster extends Hero {
+public abstract class SpellCaster extends Hero {
 
 
     protected int manaPoints;
@@ -8,30 +8,16 @@ public class SpellCaster extends Hero {
 
     public SpellCaster() {
 //        this.weaponDamage = 12;
+        this.manaPoints = 90;
     }
 
 
-    @Override
-    public int attack() {
 
-        if(manaPoints>diminuerMana){
-            manaPoints = manaPoints - diminuerMana;
-            return weaponDamage;
-        }
-        else{
-            System.out.println("Vous n'avez pas assez de mana pour attaquer, Veuillez réessayer");
-            return -1;
-        }
+    public abstract boolean attack(Enemy enemy);
 
-    }
 
     @Override
-    public void defend() {
-
-    }
-
-    @Override
-    public void useConsumable(Consumable consumable) {
-
+    public void increaseArrowOrMana() {
+        manaPoints+=20;
     }
 }

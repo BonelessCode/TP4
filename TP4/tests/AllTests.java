@@ -63,9 +63,14 @@ public class AllTests {
 
     @Test
     public void ManaManquantAucuneAttaque(){
-
         Mage mage = new Mage(0);
-        Assertions.assertTrue(mage.attack()==-1);
+        Assertions.assertTrue(!mage.attack(new Enemy()));
+    }
+
+    @Test
+    public void FlecheManquanteAucuneAttaque(){
+        Hunter hunter = new Hunter(0);
+        Assertions.assertTrue(!hunter.attack(new Enemy()));
     }
 
     @Test
@@ -74,9 +79,7 @@ public class AllTests {
         Hunter hunter = new Hunter(10);
 
         int flecheDebut = hunter.getArrow();
-        hunter.attack();
+        hunter.attack(new Enemy());
         Assertions.assertTrue(hunter.getArrow()==flecheDebut-1);
     }
-
-
 }

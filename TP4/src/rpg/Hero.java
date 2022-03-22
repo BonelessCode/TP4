@@ -3,8 +3,9 @@ package rpg;
 import java.util.List;
 
 public abstract class Hero {
+    final int basicLifePoints = 200 ;
+    protected int lifePoints = basicLifePoints;
 
-    protected int lifePoints = 200;
     private int armor;
 
     protected int weaponDamage = 200;
@@ -13,6 +14,16 @@ public abstract class Hero {
     private List<Potion> potions;
     private List<Food> lembas;
 
+    final int addConsumableEffect = 20;
+    int bonusConsumable;
+
+    public List<Potion> getPotions() {
+        return potions;
+    }
+
+    public List<Food> getFood() {
+        return lembas;
+    }
 
     public int getWeaponDamage() {
         return weaponDamage;
@@ -26,6 +37,8 @@ public abstract class Hero {
         return lifePoints;
     }
 
+
+
     public void reduceLifePoints(int n){
         lifePoints = lifePoints - n < 0 ? 0 : lifePoints -n ;
     }
@@ -36,12 +49,54 @@ public abstract class Hero {
 
 
 
-    public abstract int attack();
+    public abstract boolean attack(Enemy enemy);
 
-    public abstract void defend();
+    public void defend(){
 
-    public void useConsumable(Consumable consumable){
-        setLifePoints(lifePoints+consumable.getValue()>maxLife ? maxLife:lifePoints+consumable.getValue());
+    }
+
+    public boolean useConsumable(String choix){
+        if(!potions.isEmpty() && choix.equals("A")){
+            setLifePoints(lifePoints+potions.get(0).getValue()+bonusConsumable>maxLife ? maxLife:lifePoints+potions.get(0).getValue());
+            potions.remove(0);
+            return true;
+        }
+        else if (!lembas.isEmpty() && choix.equals("B")){
+
+            setLifePoints(lifePoints+lembas.get(0).getValue()+bonusConsumable>maxLife ? maxLife:lifePoints+lembas.get(0).getValue());
+            lembas.remove(0);
+            return true;
+        }
+        else{
+            System.out.println("Vous n'avez pas suffisamment du consommable pour l'action souhaitée, veuillez réessayer");
+            return false;
+        }
+    }
+
+
+    public void increaseArmor() {
+        armor+=20;
+    }
+
+    public void increaseDamage() {
+        weaponDamage+=20;
+    }
+
+
+    public abstract void increaseArrowOrMana();
+
+    public void increaseConsumableNumber() {
+        potions.add(new Potion());
+        lembas.add(new Food());
+    }
+
+    public void increaseConsumableEffect() {
+
+        bonusConsumable+=addConsumableEffect;
+    }
+
+    public void resetLifePoints() {
+        lifePoints = basicLifePoints;
     }
 
 }
