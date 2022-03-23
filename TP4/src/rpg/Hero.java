@@ -4,6 +4,7 @@ import java.util.List;
 
 public abstract class Hero {
     final int basicLifePoints = 200 ;
+    boolean defence;
     protected int lifePoints = basicLifePoints;
 
     private int armor;
@@ -52,7 +53,7 @@ public abstract class Hero {
     public abstract boolean attack(Enemy enemy);
 
     public void defend(){
-
+        setDefence(true);
     }
 
     public boolean useConsumable(String choix){
@@ -99,4 +100,13 @@ public abstract class Hero {
         lifePoints = basicLifePoints;
     }
 
+    public void resetDefence() { defence = false; }
+
+    public void setDefence(boolean defence) {
+        this.defence = defence;
+    }
+
+    public boolean isDefence() {
+        return defence;
+    }
 }

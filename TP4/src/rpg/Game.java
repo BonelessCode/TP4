@@ -56,10 +56,8 @@ public class Game {
             if(enemies.isEmpty()){
                 RemiseRecompenses();
             }
-            else if(heroes.isEmpty()){
-                System.out.println("Vous avez PERDU !");
-            }
         }
+        System.out.println("Vous avez PERDU !");
     }
 
     private static void RemiseRecompenses() {
@@ -115,18 +113,30 @@ public class Game {
 
 
 
-        if(playerTurn==0) {
-            verifyHealth();
-            actionChoix();
-        }
+//        if(playerTurn==0) {
+//            verifyHealth();
+//            actionChoix();
+//        }
+//
+//        else{
+//            verifyHealth();
+//            randomAttack();
+//        }
+//
+//        playerTurn = Math.abs(1-playerTurn);
 
-        else{
-            verifyHealth();
-            randomAttack();
-        }
 
-        playerTurn = Math.abs(1-playerTurn);
+        verifyHealth();
+        actionChoix();
 
+        verifyHealth();
+        randomAttack();
+
+
+
+    }
+
+    private static void resetDefence() {
 
     }
 
@@ -136,7 +146,7 @@ public class Game {
 
         for(int i=0; i<enemies.size();i++){
             aimed = random.nextInt(heroes.size());
-            heroes.get(aimed).reduceLifePoints(enemies.get(i).getWeaponDamage());
+            enemies.get(i).attack(heroes.get(aimed));
         }
     }
 
@@ -146,6 +156,7 @@ public class Game {
         int aimed;
         for (int i = 0; i < heroes.size(); i++) {
             heroActuel = heroes.get(i);
+            heroActuel.resetDefence();
 
 
             System.out.println("Numero du hero actuel: "+i);
