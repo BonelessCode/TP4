@@ -11,7 +11,9 @@ public abstract class SpellCaster extends Hero {
         this.manaPoints = 90;
     }
 
-
+    public int getMana() {
+        return manaPoints;
+    }
 
     public abstract boolean attack(Enemy enemy);
 

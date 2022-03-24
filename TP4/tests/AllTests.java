@@ -82,4 +82,43 @@ public class AllTests {
         hunter.attack(new Enemy());
         Assertions.assertTrue(hunter.getArrow()==flecheDebut-1);
     }
+
+    @Test
+    public void PotionDonneDeLaVieHunter(){
+
+        Hunter hunter = new Hunter(10);
+        int vieAvant = hunter.getLifePoints();
+        System.out.println(vieAvant);
+
+        hunter.useConsumable("A");
+        System.out.println(hunter.getLifePoints());
+
+        Assertions.assertTrue(vieAvant<hunter.getLifePoints());
+    }
+
+    @Test
+    public void PotionDonneDeLaVieCaster(){
+
+        Healer healer = new Healer();
+        int vieAvant = healer.getLifePoints();
+        System.out.println(vieAvant);
+
+        healer.useConsumable("A");
+        System.out.println(healer.getLifePoints());
+
+        Assertions.assertTrue(vieAvant<healer.getLifePoints());
+    }
+
+    @Test
+    public void PotionDonneDeLaVieWarrior(){
+        Warrior warrior = new Warrior();
+        warrior.setLifePoints(20);
+        int vieAvant = warrior.getLifePoints();
+        System.out.println(vieAvant);
+
+        warrior.useConsumable("A");
+        System.out.println(warrior.getLifePoints());
+
+        Assertions.assertTrue(vieAvant<warrior.getLifePoints());
+    }
 }

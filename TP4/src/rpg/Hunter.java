@@ -9,6 +9,8 @@ public class Hunter extends Hero {
         this.arrow = arrow;
     }
 
+
+
     @Override
     public boolean attack(Enemy enemy) {
         if(arrow>0){

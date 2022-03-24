@@ -52,19 +52,18 @@ public class Game {
             while(!heroes.isEmpty() && !enemies.isEmpty()){
                 fight();
             }
-
-            if(enemies.isEmpty()){
-                RemiseRecompenses();
-            }
         }
         System.out.println("Vous avez PERDU !");
     }
 
     private static void RemiseRecompenses() {
+        System.out.println("Vous avez remporté le combat !");
+        int i=0;
         for(Hero hero : heroes){
+            i++;
             hero.resetLifePoints();
 
-            String choice = inputParser.askPrice();
+            String choice = inputParser.askPrice(i,hero);
             switch (choice) {
                 case "A":
                     hero.increaseArmor();
@@ -92,51 +91,20 @@ public class Game {
 
 
 
-        List<Integer> heroesHealth = new ArrayList<>();
-
-        for(Hero hero : heroes){
-            heroesHealth.add(hero.getLifePoints());
-        }
-
-        System.out.println("Heros: "+heroes);
-
-        System.out.println("PDV alliés: "+heroesHealth);
-        List<Integer> enemyHealth = new ArrayList<>();
-
-        for(Enemy enemy : enemies){
-            enemyHealth.add(enemy.getLifePoints());
-        }
-
-        System.out.println("PDV ennemis: "+enemyHealth);
-        System.out.println("Ennemis: "+enemies+"\n\n");
-
-
-
-
-//        if(playerTurn==0) {
-//            verifyHealth();
-//            actionChoix();
-//        }
-//
-//        else{
-//            verifyHealth();
-//            randomAttack();
-//        }
-//
-//        playerTurn = Math.abs(1-playerTurn);
 
 
         verifyHealth();
         actionChoix();
-
         verifyHealth();
-        randomAttack();
+
+        if(!enemies.isEmpty()){
+            verifyHealth();
+            randomAttack();
+        }
 
 
 
-    }
 
-    private static void resetDefence() {
 
     }
 
@@ -159,18 +127,55 @@ public class Game {
             heroActuel.resetDefence();
 
 
+
+
+
+
+
+
+            System.out.println("Heros: "+heroes);
+
+
+            List<Integer> heroesHealth = new ArrayList<>();
+
+            for(Hero hero : heroes){
+                heroesHealth.add(hero.getLifePoints());
+            }
+            System.out.println("PDV alliés: "+heroesHealth);
+            List<Integer> enemyHealth = new ArrayList<>();
+
+            for(Enemy enemy : enemies){
+                enemyHealth.add(enemy.getLifePoints());
+            }
+
+            System.out.println("PDV ennemis: "+enemyHealth);
+            System.out.println("Ennemis: "+enemies+"\n\n");
+
+
             System.out.println("Numero du hero actuel: "+i);
             System.out.println("Type de hero actuel: "+heroActuel.getClass());
             System.out.println("PV: "+heroActuel.getLifePoints()+"       Weapon DMG: "+heroActuel.getWeaponDamage());
 
-            Enemy enemy = new Enemy();
-            do {
-                choice = inputParser.askTurnChoice(i);
+
+
+
+
+
+
+
+            if(heroActuel.getClass()==SpellCaster.class){
+                System.out.println("Mana left : "+((SpellCaster)heroActuel).getMana());
             }
-            while (!heroActuel.attack(enemy) || (choice.equals("C") && heroActuel.getPotions().isEmpty() && heroActuel.getFood().isEmpty()));
+            else if (heroActuel.getClass()==Hunter.class){
+                System.out.println("Arrows left : "+((Hunter)heroActuel).getArrow());
+            }
+            System.out.println("Liste de potions: "+heroActuel.getPotions());
+            System.out.println("Liste de nourriture: "+heroActuel.getFood());
 
             boolean bool = true;
             do {
+                choice = inputParser.askTurnChoice(i);
+
                 switch (choice) {
                     case "A":
                         System.out.println("Vous avez choisi d'attaquer !");
@@ -184,15 +189,20 @@ public class Game {
                             System.out.println("Quel ennemi voulez-vous attaquer ? ");
                             aimed = inputParser.askNumberInList(new ArrayList<>(enemies));
                             bool = heroActuel.attack(enemies.get(aimed));
-
                         }
+
                         verifyHealth();
+                        if(enemies.isEmpty()){
+                            RemiseRecompenses();
+                        }
+
                         break;
 
 
                     case "D":
                         System.out.println("Vous avez choisi de défendre !");
                         heroActuel.defend();
+                        bool=true;
                         break;
 
                     case "C":
@@ -201,12 +211,9 @@ public class Game {
                         bool = heroActuel.useConsumable(inputParser.askConsumable());
                         break;
                 }
+
             }
             while (!bool);
-
-
-
-
         }
     }
 

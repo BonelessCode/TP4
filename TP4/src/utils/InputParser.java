@@ -22,13 +22,13 @@ public class InputParser {
         return choixString;
     }
 
-    public String askPrice(){
+    public String askPrice(int numero,Hero hero){
         String choixString;
         do {
-            System.out.println("Quelle compétence voulez-vous améliorer pour le héro" +"? [A (Augmenter Armure)/B (Augmenter Dégâts)/C (Augmenter Efficacité Potion et Nourriture)/D (Augmenter le nombre de potion ou nourriture)/E (Augmenter Nombre de Flèches)");
+            System.out.println("Quelle compétence voulez-vous améliorer pour le héro n°"+numero+" qui est du type '"+hero.getClass().toString()+"' ? [A (Augmenter Armure)/B (Augmenter Dégâts)/C (Augmenter Efficacité Potion et Nourriture)/D (Augmenter le nombre de potion ou nourriture)/E (Augmenter Nombre de Flèches ou Mana)");
             choixString = sc.nextLine();
         }
-        while (!choixString.equals("A") && !choixString.equals("D") && !choixString.equals("C") && !choixString.equals("D") && !choixString.equals("E"));
+        while (!choixString.equals("A") && !choixString.equals("B") && !choixString.equals("D") && !choixString.equals("C") && !choixString.equals("D") && !choixString.equals("E"));
 
         return choixString;
     }
@@ -42,6 +42,7 @@ public class InputParser {
             System.out.println("Quel est votre choix ? Numéro entre 0 et "+(list.size()-1));
 
             choixInt = sc.nextInt();
+            sc.nextLine();
 
 
         }
