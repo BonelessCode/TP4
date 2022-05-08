@@ -1,31 +1,25 @@
 package rpg;
 
-public class SpellCaster extends Hero {
+public abstract class SpellCaster extends Hero {
 
 
-    private int manaPoints;
-    private int diminuerMana;
+    protected int manaPoints;
+    protected int diminuerMana;
 
     public SpellCaster() {
 //        this.weaponDamage = 12;
+        this.manaPoints = 90;
     }
+
+    public int getMana() {
+        return manaPoints;
+    }
+
+    public abstract boolean attack(Enemy enemy);
 
 
     @Override
-    public int attack() {
-
-
-        manaPoints = manaPoints - diminuerMana < 0 ? 0 : manaPoints - diminuerMana ;
-        return weaponDamage;
-    }
-
-    @Override
-    public void defend() {
-
-    }
-
-    @Override
-    public void useConsumable(Consumable consumable) {
-
+    public void increaseArrowOrMana() {
+        manaPoints+=20;
     }
 }
