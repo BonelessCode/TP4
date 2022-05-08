@@ -8,6 +8,16 @@ import java.util.List;
 
 public class AllTests {
 
+
+    @Test
+    public void m(){
+        int i=0;
+        int b = 0;
+
+        Assertions.assertTrue(i+b==0);
+    }
+
+
     /**
      * Vérifie que la liste générée pour les ennemis est bien de taille n-1, n ou n+1 où n est la taille de la liste de héros.
      */
@@ -43,6 +53,12 @@ public class AllTests {
         Assertions.assertTrue((int) Game.probabilite(liste, listeProbabilites) != -1);
     }
 
+
+    /**
+     * TODO : Tests taper des ennemis, Tests se faire taper par des ennemis, Tests consommer bouffe, Test récompenses, test genérer liste ennemis (?)
+     *
+     */
+
     @Test
     public void SiOnPrendPlusDeDegatsQueDePVOnMeurt(){
 
@@ -52,7 +68,7 @@ public class AllTests {
         heroesList.add(hunter);
 
         Game game3 = new Game(heroesList);
-        game3.generateCombat();
+//        game3.generateCombat();
 
         hunter.reduceLifePoints(300);
 

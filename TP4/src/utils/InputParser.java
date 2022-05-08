@@ -41,10 +41,11 @@ public class InputParser {
         do {
             System.out.println("Quel est votre choix ? Numéro entre 0 et "+(list.size()-1));
 
+            while(!sc.hasNextInt()) {
+                sc.next();
+            }
             choixInt = sc.nextInt();
             sc.nextLine();
-
-
         }
         while (choixInt<0 || choixInt>=list.size());
 
