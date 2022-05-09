@@ -4,6 +4,7 @@ public class Warrior extends Hero {
 
     public Warrior() {
 //        this.weaponDamage = 12;
+        path="warrior";
     }
 
     @Override
@@ -15,7 +16,6 @@ public class Warrior extends Hero {
 
     @Override
     public void increaseArrowOrMana() {
-        System.out.println("Votre personnage est un Warrior, ses dégâts se veront donc augmenter.");
         increaseDamage();
     }
 }

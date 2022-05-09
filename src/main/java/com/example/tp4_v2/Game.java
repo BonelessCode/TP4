@@ -4,78 +4,69 @@ import java.util.*;
 
 public class Game {
 
-    public static List<Hero> heroes;
+    public static List<Hero> heroes = new ArrayList<>();
     public static List<Enemy> enemies;
-    private static int playerTurn;
 
-    public List<Hero> getHeroes() {
-        return heroes;
-    }
+    public static List<Hero> heroesLeftRound;
 
-    public Game() {
 
-    }
-
-    public Game(List<Hero> heroes) {
-        this.heroes = heroes;
-    }
 
     Enemy enemy;
     static int probaBoss = 10;
 
     public static void main(String[] args) {
-        playGame();
+        HelloApplication.main(args);
     }
 
 
-    public static void playGame(){
 
-        heroes = new ArrayList<>();
-        heroes.add(new Hunter(10));
-        heroes.add(new Healer());
-        heroes.add(new Warrior());
-
-
-
-        while (!heroes.isEmpty()){
-            generateCombat();
-
-//          Ordre aléatoire des joueurs
-            Collections.shuffle(heroes);
-            Collections.shuffle(enemies);
-
-            playerTurn = (int) probabilite(List.of(0,1),List.of(50,50));
-
-            while(!heroes.isEmpty() && !enemies.isEmpty()){
-                fight();
-            }
-        }
-        System.out.println("Vous avez PERDU !");
+    public static void updateHeroesLeft(Hero hero) {
+        heroesLeftRound.remove(hero);
     }
+
+
+
 
     public static void remiseRecompenses(Hero hero, String choice) {
         int i=0;
 
-            hero.resetLifePoints();
+        hero.resetLifePoints();
 
-            switch (choice) {
-                case "A":
-                    hero.increaseArmor();
+        switch (choice) {
+            case "A":
+                hero.increaseArmor();
+                break;
 
-                case "B":
-                    hero.increaseDamage();
+            case "B":
+                hero.increaseDamage();
+                break;
 
-                case "C":
-                    hero.increaseConsumableEffect();
+            case "C":
+                hero.increaseConsumableEffect();
+                break;
+            case "D":
+                hero.increaseConsumableNumber();
+                break;
+            case "E":
+                hero.increaseArrowOrMana();
+                break;
+        }
 
-                case "D":
-                    hero.increaseConsumableNumber();
-
-                case "E":
-                    hero.increaseArrowOrMana();
-            }
-
+        if(hero.getClass()==Hunter.class){
+            Hunter hunter = (Hunter) hero;
+            hunter.resetArrow();
+        }
+        if(SpellCaster.class.isAssignableFrom(hero.getClass())){
+            SpellCaster spellCaster = (SpellCaster) hero;
+            spellCaster.resetMana();
+        }
+        hero.resetConsumable();
     }
+
+    public static void resetHeroesLeftRound(){
+        heroesLeftRound = new ArrayList<>(heroes);
+    }
+
 
     private static void fight() {
 
@@ -105,39 +96,42 @@ public class Game {
         }
     }
 
-    public static int actionChoix(Hero heroActuel,String choice,int aimed) {
+    public static int actionChoix(Hero heroActuel, String choice) {
+        return actionChoix(heroActuel, choice, -1);
+    }
 
-            heroActuel.resetDefence();
+    public static int actionChoix(Hero heroActuel, String choice, int aimed) {
 
-            switch (choice) {
-                case "A":
+        heroActuel.resetDefence();
 
-                    if (heroActuel.getClass() == Healer.class) {
-                        ((Healer) heroActuel).healattack(heroes,aimed);
-                    }
-                    else {
-                        heroActuel.attack(enemies.get(aimed));
-                    }
+        switch (choice) {
+            case "Attaquer":
 
-                    /**
-                     *  TODO : necessaire avant mais après à reflechir
-                     */
-                    verifyHealth();
-//                    if(enemies.isEmpty()){
-//                        RemiseRecompenses();
-//                        return 0;
-//                    }
-                    break;
+                if (heroActuel.getClass() == Healer.class) {
+                    ((Healer) heroActuel).healattack(heroes,aimed);
+                }
+                else {
+                    heroActuel.attack(enemies.get(aimed));
+                }
+
+                /**
+                 *  TODO : nécessaire avant mais après à reflechir
+                 */
+                verifyHealth();
+                break;
 
 
-                case "D":
-                    heroActuel.defend();
-                    break;
+            case "Defendre":
+                heroActuel.defend();
+                break;
 
-                case "C":
-                    heroActuel.useConsumable(aimed);
-                    break;
-            }
+            case "Potion":
+                heroActuel.useConsumable(1);
+                break;
+            case "Bouffe":
+                heroActuel.useConsumable(2);
+                break;
+        }
         return 0;
     }
 
@@ -157,13 +151,35 @@ public class Game {
                 enemies.remove(j);
             }
         }
+
+        if(heroes.isEmpty()){
+
+        }
+        else if(enemies.isEmpty()){
+
+        }
+
     }
+
+
+
+    /**
+     * Génère une liste de héros de taille n aléatoires parmi les 4 choix
+     */
+    public static void generateHeroes(int n) {
+        heroes = new ArrayList<>();
+
+        for(int i=0;i<n;i++){
+            heroes.add((Hero) probabilite(List.of(new Warrior(),new Hunter(),new Healer(),new Mage()), List.of(25,25,25,25)));
+        }
+    }
+
 
     /**
      * generateCombat sans entrer de taille définie, donc aléatoire entre la taille du héros -1 et +1
      */
-    public static void generateCombat() {
-        generateCombat(-1);
+    public static void generateEnemies() {
+        generateEnemies(-1);
     }
 
     /**
@@ -172,7 +188,7 @@ public class Game {
      *
      * @param taille la taile de la liste
      */
-    public static void generateCombat(int taille){
+    public static void generateEnemies(int taille){
         List<Enemy> enemyArrayList  = new ArrayList<>();
 
         if(taille==-1){

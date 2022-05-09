@@ -6,11 +6,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="TP4_V2" />
         <module name="TP4" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="TP4" target="17" />
+      <module name="TP4_V2" target="17" />
     </bytecodeTargetLevel>
   </component>
 </project>

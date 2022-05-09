@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+
+<?import javafx.scene.control.Button?>
+
+
+<?import javafx.scene.layout.HBox?>
+
+<?import javafx.scene.image.ImageView?>
+
+
+<?import java.net.URL?>
+<?import javafx.scene.layout.GridPane?>
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="com.example.tp4_v2.RecompensesController">
+
+    <HBox>
+        <Label fx:id="labelHero" />
+        <ImageView fx:id="heroImage" fitHeight="100" fitWidth="100"/>
+    </HBox>
+
+
+    <GridPane alignment="CENTER">
+        <stylesheets>
+            <URL value="@main.css" />
+        </stylesheets>
+
+        <padding>
+            <Insets bottom="25" left="25" right="25" top="25"/>
+        </padding>
+
+        <VBox GridPane.columnIndex="1" GridPane.rowIndex="0" GridPane.halignment="CENTER">
+            <Label fx:id="armure" text="Armure"/>
+            <Button fx:id="btn1" onAction="#addArmor"   prefWidth="200" prefHeight="200"/>
+        </VBox>
+
+        <VBox GridPane.columnIndex="2" GridPane.rowIndex="0"  GridPane.halignment="CENTER">
+            <Label fx:id="degats" text="Dégâts"/>
+            <Button fx:id="btn2" onAction="#addDamage"   prefWidth="200" prefHeight="200"/>
+        </VBox>
+
+
+        <VBox GridPane.columnIndex="3" GridPane.rowIndex="0" GridPane.halignment="CENTER">
+            <Label fx:id="consommables" text="+ de consommables"/>
+            <Button fx:id="btn3" onAction="#addConsommable"  prefWidth="200" prefHeight="200"/>
+        </VBox>
+
+        <VBox GridPane.columnIndex="4" GridPane.rowIndex="0" GridPane.halignment="CENTER">
+            <Label fx:id="consommables2" text="Consommable plus efficace"/>
+            <Button fx:id="btn4" onAction="#addConsommableEffect"  prefWidth="200" prefHeight="200"/>
+        </VBox>
+
+        <VBox GridPane.columnIndex="5" GridPane.rowIndex="0" GridPane.halignment="CENTER" >
+            <Label fx:id="fleche_mana" text="Fleche/Mana" minWidth="50"/>
+            <Button fx:id="btn5" onAction="#addFlecheouMana"  prefWidth="200" prefHeight="200"/>
+        </VBox>
+
+
+    <!--    <Label fx:id="nom"></Label>-->
+    </GridPane>
+</VBox>

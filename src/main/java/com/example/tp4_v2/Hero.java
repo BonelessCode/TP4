@@ -10,6 +10,7 @@ public abstract class Hero {
     protected int lifePoints = basicLifePoints;
 
     private int armor;
+    protected String path;
 
     protected int weaponDamage = 200;
     int maxLife = 100;
@@ -19,8 +20,7 @@ public abstract class Hero {
 
     private List<Potion> potions = new ArrayList();
     private List<Food> lembas = new ArrayList();
-
-
+    private int consumableNumber = 3;
 
 
     public List<Potion> getPotions() {
@@ -44,11 +44,18 @@ public abstract class Hero {
     }
 
     public Hero() {
-        for(int i=0;i<3;i++){
+        resetConsumable();
+    }
+
+    public void resetConsumable() {
+
+        potions = new ArrayList<>();
+        lembas = new ArrayList<>();
+
+        for(int i=0;i<consumableNumber;i++){
             potions.add(new Potion());
             lembas.add(new Food());
         }
-
     }
 
     public void reduceLifePoints(int n){
@@ -78,7 +85,7 @@ public abstract class Hero {
             return true;
         }
         else{
-            System.out.println("Vous n'avez pas suffisamment du consommable pour l'action souhaitée, veuillez réessayer");
+//            System.out.println("Vous n'avez pas suffisamment du consommable pour l'action souhaitée, veuillez réessayer");
             return false;
         }
     }
@@ -103,8 +110,7 @@ public abstract class Hero {
     public abstract void increaseArrowOrMana();
 
     public void increaseConsumableNumber() {
-        potions.add(new Potion());
-        lembas.add(new Food());
+        consumableNumber +=1;
     }
 
     public void increaseConsumableEffect() {
@@ -123,5 +129,10 @@ public abstract class Hero {
 
     public boolean isDefence() {
         return defence;
+    }
+
+    public String getPath() {
+
+        return path;
     }
 }

@@ -28,12 +28,11 @@ public class AllTests {
     @Test
     public void testListEnemy() {
         List<Hero> heroesList = new ArrayList<>();
-        heroesList.add(new Hunter(10));
+        heroesList.add(new Hunter());
         heroesList.add(new Healer());
         heroesList.add(new Warrior());
 
         int enemiesSize = (int) Game.probabilite(List.of(heroesList.size() - 1, heroesList.size(), heroesList.size() + 1), List.of(10, 80, 10));
-        System.out.println(enemiesSize);
 
         Assertions.assertTrue(enemiesSize == 2 || enemiesSize == 3 || enemiesSize == 4);
     }
@@ -59,18 +58,18 @@ public class AllTests {
 
 
     /**
-     * TODO : Tests taper des ennemis, Tests se faire taper par des ennemis, Tests consommer bouffe, Test récompenses, test genérer liste ennemis (?)
+     * TODO : Tests Jeu en lui-même - long terme pour ennemis definis.
      *
      */
 
 
     static List<Hero> renvoyerListeHeros() {
-        List<Hero> heroesList = List.of(new Hunter(10), new Healer(), new Warrior(), new Mage(10));
+        List<Hero> heroesList = List.of(new Hunter(), new Healer(), new Warrior(), new Mage());
         return heroesList;
     }
 
     static List<Hero> renvoyerListeHerosSansHealer() {
-        List<Hero> heroesList = List.of(new Hunter(10), new Warrior(), new Mage(10));
+        List<Hero> heroesList = List.of(new Hunter(), new Warrior(), new Mage());
         return heroesList;
     }
 
@@ -132,7 +131,7 @@ public class AllTests {
         Game.heroes = new ArrayList<>();
         Game.heroes.add(hero);
 
-        Game.generateCombat();
+        Game.generateEnemies();
 
         Game.heroes.get(0).reduceLifePoints(300);
 
@@ -149,12 +148,12 @@ public class AllTests {
         Game.heroes = List.of(hero);
 
 
-        Game.generateCombat(1);
+        Game.generateEnemies(1);
 
         Hero heroActuel = Game.heroes.get(0);
 
 
-        Game.actionChoix(heroActuel,"A",0);
+        Game.actionChoix(heroActuel,"Attaquer",0);
 
         Assertions.assertTrue(Game.enemies.isEmpty());
     }
@@ -164,11 +163,11 @@ public class AllTests {
     public void defendre(Hero hero){
         Game.heroes = List.of(hero);
 
-        Game.generateCombat(1);
+        Game.generateEnemies(1);
 
         Hero heroActuel = Game.heroes.get(0);
 
-        Game.actionChoix(heroActuel,"D",0);
+        Game.actionChoix(heroActuel,"Defendre",0);
 
         Assertions.assertTrue(heroActuel.isDefence());
     }
@@ -182,11 +181,11 @@ public class AllTests {
         int previousLifePoints = hero.getLifePoints();
 
 
-        Game.generateCombat(1);
+        Game.generateEnemies(1);
 
         Hero heroActuel = Game.heroes.get(0);
 
-        Game.actionChoix(heroActuel,"C",1);
+        Game.actionChoix(heroActuel,"Potion",1);
 
         Assertions.assertTrue(heroActuel.getLifePoints()==previousLifePoints+ new Potion().getValue());
     }
@@ -219,7 +218,7 @@ public class AllTests {
         Game.heroes.add(hero);
 
 
-        Game.generateCombat(1);
+        Game.generateEnemies(1);
 
 
         for (int i=0;i<7;i++){
@@ -233,20 +232,22 @@ public class AllTests {
 
     @Test
     public void ManaManquantAucuneAttaque(){
-        Mage mage = new Mage(0);
+        Mage mage = new Mage();
+        mage.setManaPoints(0);
         Assertions.assertTrue(!mage.attack(new Enemy()));
     }
 
     @Test
     public void FlecheManquanteAucuneAttaque(){
-        Hunter hunter = new Hunter(0);
+        Hunter hunter = new Hunter();
+        hunter.setArrow(0);
         Assertions.assertTrue(!hunter.attack(new Enemy()));
     }
 
     @Test
     public void FlecheDiminue(){
 
-        Hunter hunter = new Hunter(10);
+        Hunter hunter = new Hunter();
 
         int flecheDebut = hunter.getArrow();
         hunter.attack(new Enemy());
@@ -256,7 +257,7 @@ public class AllTests {
     @Test
     public void PotionDonneDeLaVieHunter(){
 
-        Hunter hunter = new Hunter(10);
+        Hunter hunter = new Hunter();
         int vieAvant = hunter.getLifePoints();
         System.out.println(vieAvant);
 

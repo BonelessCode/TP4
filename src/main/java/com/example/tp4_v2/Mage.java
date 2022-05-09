@@ -1,8 +1,8 @@
 package com.example.tp4_v2;;
 
 public class Mage extends SpellCaster {
-    public Mage(int manaPoints) {
-        this.manaPoints= manaPoints;
+    public Mage() {
+        path="mage";
     }
 
 

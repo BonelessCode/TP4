@@ -7,18 +7,19 @@
 <?import javafx.scene.control.Button?>
 
 
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 <VBox alignment="CENTER" spacing="25" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.tp4_v2.HelloController" >
 
-<padding>
-    <Insets bottom="25" left="25" right="25" top="25"/>
-</padding>
+    <padding>
+        <Insets bottom="25" left="25" right="25" top="25"/>
+    </padding>
 
-<Label fx:id="nom"></Label>
-<Button text="JOUER" onAction="#onPlayButtonClick"/>
+    <Text text="Vous avez perdu">
+        <font>
+            <Font name="Impact" size="50" />
+        </font>
+    </Text>
 
-
-<Label fx:id="nombreHeros">Nombre de héros : 1</Label>
-<Button text="AJOUTER" onAction="#onAddButtonClick"/>
-<Button text="RETIRER" onAction="#onDecreaseButtonClick"/>
 </VBox>
