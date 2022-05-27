@@ -2,7 +2,7 @@
 
 ## Que vous recherchiez richesse, pouvoir absolu, immortalité, magie ou mystère, dirigez-vous vers le sommet : toutes les vérités, gloires et joies de ce monde sont en haut de la Tour.
 
-Ce RPG a été fait dans le cadre d'un projet scolaire d'algorithmique. Il a été conçu exclusivement en Java grâce à JavaFX pour son interface graphique.
+Ce RPG a été fait dans le cadre d'un projet scolaire d'algorithmique à l'ISEP durant l'année 2021-2022. Il a été conçu exclusivement en Java grâce à JavaFX pour son interface graphique.
 
 ## Les Héros
 
