@@ -9,10 +9,17 @@ public abstract class Hero {
     boolean defence;
     protected int lifePoints = basicLifePoints;
 
+
+
     private int armor;
     protected String path;
 
-    protected int weaponDamage = 200;
+    protected int weaponDamage = 27;
+
+    public void setWeaponDamage(int weaponDamage) {
+        this.weaponDamage = weaponDamage;
+    }
+
     int maxLife = 100;
     final int addConsumableEffect = 20;
     int bonusConsumable;
@@ -21,6 +28,7 @@ public abstract class Hero {
     private List<Potion> potions = new ArrayList();
     private List<Food> lembas = new ArrayList();
     private int consumableNumber = 3;
+    private int maxArmor = 40;
 
 
     public List<Potion> getPotions() {
@@ -85,7 +93,6 @@ public abstract class Hero {
             return true;
         }
         else{
-//            System.out.println("Vous n'avez pas suffisamment du consommable pour l'action souhaitée, veuillez réessayer");
             return false;
         }
     }
@@ -99,7 +106,7 @@ public abstract class Hero {
     }
 
     public void increaseArmor() {
-        armor+=20;
+        armor = (armor >= maxArmor ? maxArmor : armor+10);
     }
 
     public void increaseDamage() {
@@ -132,7 +139,6 @@ public abstract class Hero {
     }
 
     public String getPath() {
-
         return path;
     }
 }

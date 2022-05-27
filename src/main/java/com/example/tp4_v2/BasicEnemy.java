@@ -4,7 +4,7 @@ public class BasicEnemy extends Enemy {
 
     public BasicEnemy() {
         this.lifePoints = 30;
-        this.weaponDamage = 10;
+        this.weaponDamage = 12;
         path = "ennemi";
     }
 }

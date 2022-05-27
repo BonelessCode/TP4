@@ -13,6 +13,7 @@ import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
@@ -31,10 +32,26 @@ import static java.lang.Math.max;
 public class HelloController {
 
     @FXML
-    int nombreHerosValeur = 1;
+    int nombreHerosHealerValeur = 0;
 
     @FXML
-    private Label nombreHeros;
+    int nombreHerosHunterValeur = 0;
+
+    @FXML
+    int nombreHerosWarriorValeur = 0;
+
+    @FXML
+    int nombreHerosMageValeur = 0;
+
+    @FXML
+    private Label nombreHealer;
+    @FXML
+    private Label nombreHunter;
+    @FXML
+    private Label nombreWarrior;
+    @FXML
+    private Label nombreMage;
+
 
     Text herosSelectionneValeurText;
     Text degatsValeurText;
@@ -55,17 +72,16 @@ public class HelloController {
 
     GridPane root;
 
-    final int SCREEN_SIZE = 800;
+    ScrollPane scrollPane;
+
+
     private int maximum;
 
 
 
     @FXML
     protected void onPlayButtonClick(ActionEvent event) {
-
-
-
-        generateHeroes(nombreHerosValeur);
+        generateHeroes(nombreHerosHealerValeur,nombreHerosHunterValeur,nombreHerosWarriorValeur,nombreHerosMageValeur);
         ((Stage) ((Node) event.getSource()).getScene().getWindow()).close();
 
         stage = new Stage();
@@ -87,13 +103,17 @@ public class HelloController {
         heroRecompensesCompteur= 0;
         tour = 1;
 
-        generateEnemies();
+        generateEnemies(-1,round);
+
         maximum = max(enemies.size(),heroes.size());
 
         resetHeroesLeftRound();
 
 
-        ScrollPane scrollPane = new ScrollPane();
+        scrollPane = new ScrollPane();
+
+        Text text = new Text("fgnjksdlfjdkslfkjdlmfksdlmfsdkflmsd");
+
 
         root = new GridPane();
 
@@ -104,7 +124,7 @@ public class HelloController {
 
         scrollPane.setFitToWidth(true);
         scrollPane.setContent(root);
-        Scene scene = new Scene(scrollPane, SCREEN_SIZE, SCREEN_SIZE);
+        Scene scene = new Scene(scrollPane, HelloApplication.SCREEN_SIZE, HelloApplication.SCREEN_SIZE);
         stage.setTitle("RPG!");
         stage.setScene(scene);
         stage.show();
@@ -151,13 +171,15 @@ public class HelloController {
         }
 
 
-        Scene scene2 = new Scene(root2, SCREEN_SIZE, SCREEN_SIZE);
+        Scene scene2 = new Scene(root2, HelloApplication.SCREEN_SIZE, HelloApplication.SCREEN_SIZE);
         stage2.setTitle("Défaite !");
         stage2.setScene(scene2);
         stage2.show();
     }
 
-
+    /**
+     * Affiche la page de recompenses lorsqu'on a gagné le round
+     */
     private void afficherRecompenses() {
 
 
@@ -170,11 +192,8 @@ public class HelloController {
             controller.setMainController(this);
 
 
-
-
-
             round++;
-            Scene scene3 = new Scene(newRoot, SCREEN_SIZE, SCREEN_SIZE);
+            Scene scene3 = new Scene(newRoot, HelloApplication.SCREEN_SIZE, HelloApplication.SCREEN_SIZE);
             stage.setTitle("Remise des récompenses !");
             stage.setScene(scene3);
             stage.show();
@@ -197,12 +216,12 @@ public class HelloController {
         checkHeroesLeft();
     }
 
-
+    /**
+     * Met à jour la partie centrale de l'interface graphique avec les héros etc.
+     */
     private void updateUI(){
 
-
-
-        Image herbe = new Image(getClass().getResourceAsStream("/img/herbe.jpg"),SCREEN_SIZE / 11, SCREEN_SIZE / 11, false, false);
+        Image herbe = new Image(getClass().getResourceAsStream("/img/herbe.jpg"),HelloApplication.SCREEN_SIZE / 11, HelloApplication.SCREEN_SIZE / 11, false, false);
 
 
         for (int i=0;i<11;i++){
@@ -216,7 +235,7 @@ public class HelloController {
                  */
                 if(heroes.size()>=j){
                     if(i==2){
-                        ImageView imageHero = new ImageView(new Image(getClass().getResourceAsStream("/img/"+heroes.get(j-1).getPath()+".png"),SCREEN_SIZE / 11, SCREEN_SIZE / 11, false, false));
+                        ImageView imageHero = new ImageView(new Image(getClass().getResourceAsStream("/img/"+heroes.get(j-1).getPath()+".png"),HelloApplication.SCREEN_SIZE / 11, HelloApplication.SCREEN_SIZE / 11, false, false));
                         root.add(imageHero,i,j);
 
 
@@ -283,7 +302,7 @@ public class HelloController {
 
                 if (enemies.size()>=j){
                     if(i==9){
-                        ImageView imageEnemy = new ImageView(new Image(getClass().getResourceAsStream("/img/"+enemies.get(j-1).getPath()+".png"),SCREEN_SIZE / 11, SCREEN_SIZE / 11, false, false));
+                        ImageView imageEnemy = new ImageView(new Image(getClass().getResourceAsStream("/img/"+enemies.get(j-1).getPath()+".png"),HelloApplication.SCREEN_SIZE / 11, HelloApplication.SCREEN_SIZE / 11, false, false));
                         root.add(imageEnemy,i,j);
 
                         int finalJ1 = j;
@@ -315,13 +334,16 @@ public class HelloController {
 
     private void newSelection(int selectedHero) {
         this.selectedHero = heroes.get(selectedHero -1);
-        // TODO : toast message "selected"
         updateBottomUI();
     }
 
+    /**
+     * Met à jour la partie basse de l'interface graphique qui correpond aux stats du héro selectionné
+     */
     private void updateBottomUI(){
         List<Integer> listPositionHeroes = new ArrayList<>();
 
+        // Si cette partie n'a jamais été crée avant
         if(herosSelectionneValeurText==null){
             int debut = max(heroes.size(), enemies.size())+1;
 
@@ -339,9 +361,6 @@ public class HelloController {
 
             tourValeurText = new Text(""+tour);
             root.add(tourValeurText,10,debut+1);
-
-
-
 
             Text herosSelectionneText = new Text("Héros : ");
             root.add(herosSelectionneText,0,debut);
@@ -411,7 +430,6 @@ public class HelloController {
 
         }
         else{
-
             roundValeurText.setText(""+round);
             tourValeurText.setText(""+tour);
 
@@ -431,6 +449,9 @@ public class HelloController {
         }
     }
 
+    /**
+     * Permet de générer la première ligne avec les boutons pour attaquer et met aussi en place leur effet
+     */
     private void genererPremiereLigneUI() {
         List<String> boutonsPremiereLigne = List.of("Attaquer","Defendre","Potion","Bouffe");
         List<String> textePremiereLigne = List.of("Mana|Flèches","PV","PV");
@@ -467,16 +488,43 @@ public class HelloController {
         }
     }
 
-    @FXML
-    protected void onAddButtonClick(){
-        nombreHerosValeur++;
-        nombreHeros.setText("Nombre de héros : " + nombreHerosValeur);
+
+
+    public void onAddHealerButtonClick() {
+        nombreHerosHealerValeur++;
+        nombreHealer.setText("Nombre de Healers : " + nombreHerosHealerValeur);
+
     }
 
-    @FXML
-    protected void onDecreaseButtonClick(){
-        nombreHerosValeur = nombreHerosValeur >1 ? nombreHerosValeur -1 : 1;
-        nombreHeros.setText("Nombre de héros : " + nombreHerosValeur);
+    public void onDecreaseHealerButtonClick() {
+        nombreHerosHealerValeur = nombreHerosHealerValeur >0 ? nombreHerosHealerValeur -1 : 0;
+        nombreHealer.setText("Nombre de Healers : " + nombreHerosHealerValeur);
     }
 
+    public void onAddHunterButtonClick() {
+        nombreHerosHunterValeur++;
+        nombreHunter.setText("Nombre de Hunters : " + nombreHerosHunterValeur);
+    }
+    public void onDecreaseHunterButtonClick() {
+        nombreHerosHunterValeur = nombreHerosHunterValeur >0 ? nombreHerosHunterValeur -1 : 0;
+        nombreHunter.setText("Nombre de Hunters : " + nombreHerosHunterValeur);
+    }
+    public void onAddWarriorButtonClick() {
+        nombreHerosWarriorValeur++;
+        nombreWarrior.setText("Nombre de Warriors : " + nombreHerosWarriorValeur);
+    }
+   public void onDecreaseWarriorButtonClick() {
+       nombreHerosWarriorValeur = nombreHerosWarriorValeur >0 ? nombreHerosWarriorValeur -1 : 0;
+       nombreWarrior.setText("Nombre de Warriors : " + nombreHerosWarriorValeur);
+    }
+
+    public void onAddMageButtonClick() {
+        nombreHerosMageValeur++;
+        nombreMage.setText("Nombre de Mages : " + nombreHerosMageValeur);
+    }
+
+    public void onDecreaseMageButtonClick() {
+        nombreHerosMageValeur = nombreHerosMageValeur >0 ? nombreHerosMageValeur -1 : 0;
+        nombreMage.setText("Nombre de Mages : " + nombreHerosMageValeur);
+    }
 }

@@ -3,12 +3,8 @@ package com.example.tp4_v2;
 public class Enemy {
     protected int lifePoints;
     protected int weaponDamage;
-    protected final int ratio = 2;
     protected String path;
 
-    public int getWeaponDamage() {
-        return weaponDamage;
-    }
 
     public int getLifePoints() {
         return lifePoints;
@@ -23,9 +19,10 @@ public class Enemy {
     }
 
     public boolean attack(Hero hero) {
-        int damage = weaponDamage;
+        int damage = weaponDamage * (1-(hero.getArmor()/100));
+
         if(hero.isDefence()){
-            damage = weaponDamage/ratio;
+            damage = (int) (weaponDamage*0.7);
         }
 
         hero.reduceLifePoints(damage);

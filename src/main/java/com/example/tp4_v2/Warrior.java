@@ -14,6 +14,7 @@ public class Warrior extends Hero {
     }
 
 
+
     @Override
     public void increaseArrowOrMana() {
         increaseDamage();

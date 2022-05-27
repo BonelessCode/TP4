@@ -13,14 +13,6 @@ import java.util.List;
 public class AllTests {
 
 
-    @Test
-    public void m(){
-        int i=0;
-        int b = 0;
-
-        Assertions.assertTrue(i+b==0);
-    }
-
 
     /**
      * Vérifie que la liste générée pour les ennemis est bien de taille n-1, n ou n+1 où n est la taille de la liste de héros.
@@ -147,8 +139,10 @@ public class AllTests {
 
         Game.heroes = List.of(hero);
 
+        hero.setWeaponDamage(2147483647);
 
-        Game.generateEnemies(1);
+
+        Game.generateEnemies(1,0);
 
         Hero heroActuel = Game.heroes.get(0);
 
@@ -163,7 +157,7 @@ public class AllTests {
     public void defendre(Hero hero){
         Game.heroes = List.of(hero);
 
-        Game.generateEnemies(1);
+        Game.generateEnemies(1,0);
 
         Hero heroActuel = Game.heroes.get(0);
 
@@ -181,7 +175,7 @@ public class AllTests {
         int previousLifePoints = hero.getLifePoints();
 
 
-        Game.generateEnemies(1);
+        Game.generateEnemies(1,0);
 
         Hero heroActuel = Game.heroes.get(0);
 
@@ -198,11 +192,14 @@ public class AllTests {
         Game.heroes = List.of(healer);
 
 
-        int hpDebut = healer.getLifePoints();
-
-        healer.reduceLifePoints(50);
+        int hpDebut = Game.heroes.get(0).getLifePoints();
+        System.out.println(hpDebut);
+        healer.reduceLifePoints(1);
 
         healer.healattack(Game.heroes,0);
+        System.out.println(healer.getLifePoints());
+
+
         Assertions.assertTrue(hpDebut<healer.getLifePoints());
 
     }
@@ -218,7 +215,7 @@ public class AllTests {
         Game.heroes.add(hero);
 
 
-        Game.generateEnemies(1);
+        Game.generateEnemies(1,0);
 
 
         for (int i=0;i<7;i++){

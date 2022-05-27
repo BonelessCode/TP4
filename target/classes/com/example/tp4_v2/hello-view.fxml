@@ -7,18 +7,52 @@
 <?import javafx.scene.control.Button?>
 
 
-<VBox alignment="CENTER" spacing="25" xmlns:fx="http://javafx.com/fxml"
+<?import java.net.URL?>
+<?import javafx.scene.layout.HBox?>
+<VBox fx:id="background" alignment="CENTER" spacing="25" xmlns:fx="http://javafx.com/fxml"
       fx:controller="com.example.tp4_v2.HelloController" >
 
-<padding>
-    <Insets bottom="25" left="25" right="25" top="25"/>
-</padding>
+    <stylesheets>
+        <URL value="@menu.css" />
+    </stylesheets>
 
-<Label fx:id="nom"></Label>
-<Button text="JOUER" onAction="#onPlayButtonClick"/>
+    <padding>
+        <Insets bottom="25" left="25" right="25" top="25"/>
+    </padding>
+
+    <Label styleClass="button" fx:id="titre">LA TOUR</Label>
+    <Label styleClass="button">Que vous recherchiez richesse, pouvoir absolu, immortalité, magie ou mystère, dirigez-vous vers le sommet : toutes les vérités, gloires et joies de ce monde sont en haut de la Tour.</Label>
+
+    <Label fx:id="nom"></Label>
+    <Button style="-fx-font-size: 40px;-fx-background-color: red" text="JOUER" styleClass="button" onAction="#onPlayButtonClick"/>
 
 
-<Label fx:id="nombreHeros">Nombre de héros : 1</Label>
-<Button text="AJOUTER" onAction="#onAddButtonClick"/>
-<Button text="RETIRER" onAction="#onDecreaseButtonClick"/>
+    <HBox alignment="CENTER">
+        <VBox styleClass="center">
+            <Button text="+" styleClass="button" onAction="#onAddHealerButtonClick"/>
+            <Label styleClass="button" fx:id="nombreHealer">Nombre de Healers : 0</Label>
+            <Button styleClass="button" text="-" onAction="#onDecreaseHealerButtonClick"/>
+        </VBox>
+        <VBox styleClass="center">
+            <Button text="+" styleClass="button" onAction="#onAddHunterButtonClick"/>
+            <Label styleClass="button" fx:id="nombreHunter">Nombre de Hunters : 0</Label>
+            <Button styleClass="button" text="-" onAction="#onDecreaseHunterButtonClick"/>
+        </VBox>
+        <VBox styleClass="center">
+            <Button text="+" styleClass="button" onAction="#onAddWarriorButtonClick"/>
+            <Label styleClass="button" fx:id="nombreWarrior">Nombre de Warriors : 0</Label>
+            <Button styleClass="button" text="-" onAction="#onDecreaseWarriorButtonClick"/>
+        </VBox>
+        <VBox styleClass="center">
+            <Button text="+" styleClass="button" onAction="#onAddMageButtonClick"/>
+            <Label styleClass="button" fx:id="nombreMage">Nombre de Mages : 0</Label>
+            <Button styleClass="button" text="-" onAction="#onDecreaseMageButtonClick"/>
+        </VBox>
+
+    </HBox>
+
+
+
+
+
 </VBox>

@@ -166,12 +166,28 @@ public class Game {
     /**
      * Génère une liste de héros de taille n aléatoires parmi les 4 choix
      */
-    public static void generateHeroes(int n) {
+    public static void generateHeroes(int nbHealer,int nbHunter, int nbWarrior, int nbMage) {
         heroes = new ArrayList<>();
 
-        for(int i=0;i<n;i++){
-            heroes.add((Hero) probabilite(List.of(new Warrior(),new Hunter(),new Healer(),new Mage()), List.of(25,25,25,25)));
+        List<Integer> listNumbers = List.of(nbHealer,nbHunter,nbWarrior,nbMage);
+
+        for(int i=0;i<nbHealer;i++){
+            heroes.add(new Healer());
         }
+
+        for(int i=0;i<nbHunter;i++){
+            heroes.add(new Hunter());
+        }
+
+        for(int i=0;i<nbWarrior;i++){
+            heroes.add(new Warrior());
+        }
+
+        for(int i=0;i<nbMage;i++){
+            heroes.add(new Mage());
+        }
+
+        Collections.shuffle(heroes);
     }
 
 
@@ -179,20 +195,20 @@ public class Game {
      * generateCombat sans entrer de taille définie, donc aléatoire entre la taille du héros -1 et +1
      */
     public static void generateEnemies() {
-        generateEnemies(-1);
+        generateEnemies(-1,0);
     }
 
+
     /**
-     *
-     * Génère une liste d'ennemis en prenant en compte les imprécisions en terme de nombre et les probabilite que le boss spawn.
-     *
-     * @param taille la taile de la liste
+     * Génère une liste d'ennemis en prenant en compte les imprécisions en terme de nombre et les probabilite que le boss spawn, et la difficulté en fonction du round actuel.
+     * @param taille paramètre optionnel pour directement definir la taille de la liste
+     * @param round nombre de vague d'ennemis battus, ce qui augmente le nombre d'ennemis regulièrement afin d'augmenter la difficulté
      */
-    public static void generateEnemies(int taille){
+    public static void generateEnemies(int taille,int round){
         List<Enemy> enemyArrayList  = new ArrayList<>();
 
         if(taille==-1){
-            taille =  heroes.size()<=1 ? (int) probabilite(List.of(heroes.size(),heroes.size()+1),List.of(90,10)):(int) probabilite(List.of(heroes.size()-1,heroes.size(),heroes.size()+1),List.of(10,80,10));
+            taille = heroes.size()<=1 ? (int) probabilite(List.of(heroes.size()+round,heroes.size()+1+round),List.of(90,10)) : (int) probabilite(List.of(heroes.size()-1+round,heroes.size()+round,heroes.size()+1+round),List.of(10,80,10));
         }
 
 

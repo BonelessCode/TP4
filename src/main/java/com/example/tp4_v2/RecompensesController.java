@@ -16,7 +16,7 @@ public class RecompensesController {
     private Label labelHero;
 
     @FXML
-    private ImageView heroImage ;
+    private ImageView heroImage;
     HelloController controller;
 
     public void setMainController(HelloController controller){

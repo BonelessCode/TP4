@@ -1,0 +1,26 @@
+#background{
+    -fx-background-image: url('background.jpg');
+    -fx-background-repeat: stretch;
+
+    -fx-background-position: center center;
+}
+
+.button{
+    -fx-background-color: black;
+    -fx-text-fill: white;
+
+}
+
+#titre{
+    -fx-font-size: 60px;
+}
+
+.center{
+    -fx-alignment: center;
+}
+
+.noMargin{
+    -fx-padding: 0px;
+    -fx-end-margin: 0px;
+    -fx-start-margin: 0px;
+}

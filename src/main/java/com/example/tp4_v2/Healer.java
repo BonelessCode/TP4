@@ -14,6 +14,9 @@ public class Healer extends SpellCaster {
     }
 
     public boolean healattack(List<Hero> heroes,int numberOfAimedHero) {
+
+
+        System.out.println(manaPoints);
         if(manaPoints>diminuerMana){
             manaPoints = manaPoints - diminuerMana;
             heroes.get(numberOfAimedHero).addLifePoints(weaponDamage);
